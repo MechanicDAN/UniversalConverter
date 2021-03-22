@@ -4,7 +4,7 @@
 HTTP conversion service for all units.
 ## API
 Server has following endpoints:
-POST localhost:8080/convert with JSON in request body:
+POST ```localhost:8080/convert``` with JSON in request body:
 ```
 {
  "from": "<expression in original units>",
