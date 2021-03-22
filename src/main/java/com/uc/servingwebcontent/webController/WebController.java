@@ -1,19 +1,21 @@
 package com.uc.servingwebcontent.webController;
 
-import com.uc.servingwebcontent.component.CvsParser;
-import com.uc.servingwebcontent.component.SpringApplicationContext;
-import com.uc.servingwebcontent.converter.Converter;
+import com.uc.servingwebcontent.dto.Request;
+import com.uc.servingwebcontent.service.Converter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class WebController {
+    @Autowired
+    private Converter converter;
 
     @PostMapping("/")
-    public Response cvs(@RequestBody Request request) {
-        CvsParser parser = (CvsParser) SpringApplicationContext.getBean("cvsParser");
-        Converter converter = new Converter(parser.convertMap, request.getFrom(), request.getTo());
-        return converter.convert();
+    public ResponseEntity<String> convert(@RequestBody Request request) {
+        return converter.convert(request.getFrom(), request.getTo());
     }
 }
