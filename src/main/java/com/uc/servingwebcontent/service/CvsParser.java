@@ -1,10 +1,8 @@
 package com.uc.servingwebcontent.service;
 
 import com.opencsv.CSVReader;
-import lombok.Data;
-import org.springframework.context.annotation.Scope;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -12,16 +10,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 @Service
-@Scope("singleton")
-@Data
+@NoArgsConstructor
 public class CvsParser {
-    private String path = "";
-    private HashMap<String, HashMap<String, Double>> convertMap = new HashMap<>();
-    private HashSet<String> unitsSet = new HashSet<>();
+    public String path = "";
+    public HashMap<String, HashMap<String, Double>> convertMap = new HashMap<>();
+    public HashSet<String> unitsSet = new HashSet<>();
 
     public void parse() throws Exception {
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8))) {
-            String[] values = null;
+           String[] values;
            while ((values = csvReader.readNext()) != null) {
                if (!convertMap.containsKey(values[0])) {
                    convertMap.put(values[0], new HashMap<String, Double>());

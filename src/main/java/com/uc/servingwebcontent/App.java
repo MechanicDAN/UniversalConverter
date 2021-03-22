@@ -19,7 +19,7 @@ public class App implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         try {
-            parser.setPath(args.getSourceArgs()[0]);
+            parser.path = args.getSourceArgs()[0];
         } catch (Exception e) {
             System.out.println("File path not specified");
             e.printStackTrace();

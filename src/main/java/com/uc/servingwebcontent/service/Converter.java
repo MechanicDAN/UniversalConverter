@@ -2,15 +2,14 @@ package com.uc.servingwebcontent.service;
 
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 @Service
-@Scope("singleton")
 @NoArgsConstructor
 public class Converter {
     @Autowired
@@ -30,12 +29,12 @@ public class Converter {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         for(String unit : numerator) {
-            if (!parser.getUnitsSet().contains(unit))
+            if (!parser.unitsSet.contains(unit))
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         for(String unit : denominator) {
-            if (!parser.getUnitsSet().contains(unit))
+            if (!parser.unitsSet.contains(unit))
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -50,8 +49,8 @@ public class Converter {
                     i--;
                     break;
                 }
-                if (parser.getConvertMap().containsKey(factor) && parser.getConvertMap().get(factor).containsKey(divider)) {
-                    coefficient /= parser.getConvertMap().get(factor).get(divider);
+                if (parser.convertMap.containsKey(factor) && parser.convertMap.get(factor).containsKey(divider)) {
+                    coefficient /= parser.convertMap.get(factor).get(divider);
                     denominator.remove(divider);
                     numerator.remove(factor);
                     i--;
@@ -62,11 +61,11 @@ public class Converter {
 
         for (int i = 0; i < denominator.size(); i++) {
             String divider = denominator.get(i);
-            if (parser.getConvertMap().containsKey(divider)) {
+            if (parser.convertMap.containsKey(divider)) {
                 for (int j = 0; j < numerator.size(); j++) {
                     String factor = numerator.get(j);
-                    if (parser.getConvertMap().get(divider).containsKey(factor)) {
-                        coefficient *= parser.getConvertMap().get(divider).get(factor);
+                    if (parser.convertMap.get(divider).containsKey(factor)) {
+                        coefficient *= parser.convertMap.get(divider).get(factor);
                         denominator.remove(divider);
                         numerator.remove(factor);
                         i--;

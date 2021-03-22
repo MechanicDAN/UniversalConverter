@@ -1,6 +1,5 @@
 package com.uc.servingwebcontent;
 
-import com.uc.servingwebcontent.webController.WebController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,31 +23,43 @@ public class AppIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    public void WebControllerConvertOkTest() throws Exception {
+    public void WebControllerConvertOkTest1() throws Exception {
         this.mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"from\": \"м\", \"to\": \"м\" }"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("1")));
+    }
+    @Test
+    public void WebControllerConvertOkTest2() throws Exception {
         this.mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"from\": \"км\", \"to\": \"м\" }"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("1000")));
+    }
+    @Test
+    public void WebControllerConvertOkTest3() throws Exception {
         this.mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"from\": \"м / с\", \"to\": \"км / час\" }"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("3.6")));
+    }
+    @Test
+    public void WebControllerConvertOkTest4() throws Exception {
         this.mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"from\": \"час\", \"to\": \"с\" }"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("3600")));
+    }
+    @Test
+    public void WebControllerConvertOkTest5() throws Exception {
         this.mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"from\": \"м/с\", \"to\": \"км/час\" }"))
@@ -58,12 +69,15 @@ public class AppIntegrationTest {
     }
 
     @Test
-    public void WebControllerConvertBadRequestTest() throws Exception {
+    public void WebControllerConvertBadRequestTest1() throws Exception {
         this.mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"from\": \"моль\", \"to\": \"м\" }"))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+    }
+    @Test
+    public void WebControllerConvertBadRequestTest2() throws Exception {
         this.mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"from\": \"км/па\", \"to\": \"м/с\" }"))
@@ -72,12 +86,20 @@ public class AppIntegrationTest {
     }
 
     @Test
-    public void WebControllerConvertNotFoundTest() throws Exception {
+    public void WebControllerConvertNotFoundTest1() throws Exception {
         this.mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"from\": \"с\", \"to\": \"м\" }"))
                 .andDo(print())
                 .andExpect(status().isNotFound());
+        this.mockMvc.perform(post("/convert")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"from\": \"км/час\", \"to\": \"м/км\" }"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    public void WebControllerConvertNotFoundTest2() throws Exception {
         this.mockMvc.perform(post("/convert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"from\": \"км/час\", \"to\": \"м/км\" }"))
