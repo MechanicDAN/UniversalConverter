@@ -14,7 +14,7 @@ public class WebController {
     @Autowired
     private Converter converter;
 
-    @PostMapping("/")
+    @PostMapping("/convert")
     public ResponseEntity<String> convert(@RequestBody Request request) {
         return converter.convert(request.getFrom(), request.getTo());
     }
