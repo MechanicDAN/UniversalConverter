@@ -66,16 +66,16 @@ public class Converter {
         if (numerator.size() != denominator.size())
             return false;
 
-        for(String unit : numerator) {
-            if (!parser.unitsSet.contains(unit))
-                return false;
-        }
+        return !containUnknown(numerator) && !containUnknown(denominator);
+    }
 
-        for(String unit : denominator) {
+    private boolean containUnknown(ArrayList<String> arr) {
+        for(String unit : arr) {
             if (!parser.unitsSet.contains(unit))
-                return false;
+                return true;
+
         }
-        return true;
+        return false;
     }
 
     private double calculateFactorToDivider(double coefficient) {
